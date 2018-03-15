@@ -1,20 +1,12 @@
 import React, { Component } from 'react';
-import Header from './base/Header';
-import PageTemplates from './templates/pageTemplates';
+// import Header from 'base/Header';
+// import PageTemplates from 'templates/pageTemplates';
+import { Home } from 'pages';
 
-class App extends Component {
-  state = {
-
-  }
-
-  render() {
-    return (
-      <div>
-        <Header />
-        <PageTemplates />
-      </div>
-    );
-  }
-}
+const App = () => (
+  <div>
+    Hi i am App
+  </div>
+);
 
 export default App;
