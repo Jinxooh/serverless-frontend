@@ -14,6 +14,7 @@ module.exports = {
     "class-methods-use-this": 0,
     "react/jsx-filename-extension": 0,
     "jsx-a11y/href-no-hash": 0,
-    "no-unused-vars": 1
+    "no-unused-vars": 1,
+    "arrow-body-style": 0
   }
 };

@@ -89,7 +89,8 @@
   },
   "babel": {
     "presets": [
-      "react-app"
+      "react-app",
+      "air-bnb"
     ]
   },
   "devDependencies": {
