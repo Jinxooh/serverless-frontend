@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
-// import Header from 'base/Header';
-// import PageTemplates from 'templates/pageTemplates';
+import React from 'react';
+import { Route, Switch } from 'react-router-dom';
 import { Home } from 'pages';
 
 const App = () => (
-  <div>
-    Hi i am App
-  </div>
+  <Switch>
+    <Route exact path="/" compononet={Home} />
+  </Switch>
 );
 
 export default App;
