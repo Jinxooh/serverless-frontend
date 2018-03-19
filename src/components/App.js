@@ -4,7 +4,7 @@ import { Home } from 'pages';
 
 const App = () => (
   <Switch>
-    <Route exact path="/" compononet={Home} />
+    <Route exact path="/" component={Home} />
   </Switch>
 );
 

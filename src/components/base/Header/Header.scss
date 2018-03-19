@@ -1,0 +1,39 @@
+@import 'utils';
+
+.base.header {
+  user-select: none;
+  .header-wrapper{
+    height: 6rem;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    .brand {
+      font-size: 2.25rem;
+      font-family: 'Bangers', monospace;
+      font-weight: 700;
+      @include media("<medium") {
+        font-size: 1.65rem;
+      }
+      span {
+        color: $oc-pink-5;
+      }
+    }
+    nav {
+      margin-left: 2rem;
+      a {
+        font-size: 1.25rem;
+        color: $oc-gray-7;
+        &.active {
+          color: $oc-pink-5;
+          font-weight: 500;
+        }
+        & + a {
+          margin-left: 1rem;
+        }
+      }
+    }
+    .right {
+      margin-left: auto;
+    }
+  }
+}
