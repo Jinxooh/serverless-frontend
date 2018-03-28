@@ -15,7 +15,7 @@
         font-size: 1.65rem;
       }
       span {
-        color: $oc-pink-5;
+        color: $oc-violet-5;
       }
     }
     nav {
@@ -24,7 +24,7 @@
         font-size: 1.25rem;
         color: $oc-gray-7;
         &.active {
-          color: $oc-pink-5;
+          color: $oc-violet-5;
           font-weight: 500;
         }
         & + a {

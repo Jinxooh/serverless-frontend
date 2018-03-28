@@ -3,23 +3,24 @@ import Responsive from 'components/common/Responsive';
 
 import './HomeTemplate.scss';
 
-const HomeTemplate = () => {
+const HomeTemplate = ({ form }) => {
+  const title = 'Hye jung\'s Daily Diary';
   return (
     <div className="home-template">
       <Responsive className="block">
         <div className="left-text">
           <div>
-            <h1>HHJ Daily Diary</h1>
-            <p>She saves momonets of everyday</p>
-            <p>Recording makes you happier than normal</p>
+            <h1>{title}</h1>
+            <p>She records moments each day</p>
+            <p>Recording habits will make you happier than usual</p>
           </div>
         </div>
         <div className="right-form">
           <div className="black-box">
-            제 이름은요 어쩌고인데
+            {form}
           </div>
           <div className="register-button">
-            지금 시작하기
+            Now Start
           </div>
         </div>
       </Responsive>
