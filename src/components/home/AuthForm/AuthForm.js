@@ -29,8 +29,8 @@ const AuthForm = ({
           <div className="sent-email">
             <CheckIcon />
             <div className="text">
-              회원가입 인증 링크가 이메일로 전송되었습니다.<br />
-              이메일의 링크를 통하여 회원가입을 계속하세요.
+              We have emailed you a secure link.<br />
+              Please click on it to processed.
             </div>
           </div>
         ) : (
