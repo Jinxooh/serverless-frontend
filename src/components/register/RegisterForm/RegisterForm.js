@@ -7,15 +7,16 @@ import './RegisterForm.scss';
 
 type Props = {
   onChange(e: SyntheticInputEvent<HTMLInputElement>): void,
-  name: string,
+  onRegister(): void,
+  displayName: string,
   email: string,
   username: string,
   shortBio: string
 };
 
 const RegisterForm = ({
-  onChange,
-  name, email, username, shortBio,
+  onChange, onRegister,
+  displayName, email, username, shortBio,
 }: Props) => {
   return (
     <div className="register-form">
@@ -23,7 +24,7 @@ const RegisterForm = ({
         <h2>User Information</h2>
       </div>
       <div className="form-contents">
-        <LabelInput value={name} name="name" required label="Name" placeholder="Input Your Name" onChange={onChange} />
+        <LabelInput value={displayName} name="name" required label="Name" placeholder="Input Your Name" onChange={onChange} />
         <LabelInput value={email} name="email" required label="Email" disabled />
         <LabelInput value={username} name="username" required label="ID" placeholder="Input Your ID" onChange={onChange} />
         <LabelInput value={shortBio} name="shortBio" label="Short Bio" placeholder="Input Your Short Bio" onChange={onChange} />
@@ -31,7 +32,7 @@ const RegisterForm = ({
           Next 버튼을 누르면 <span>서비스 이용약관</span>과 <span>개인정보취급방침</span>에 동의하는 것을 인정합니다.
         </div>
         <div className="button-wrapper">
-          <div className="icon-button">
+          <div className="icon-button" onClick={onRegister}>
             <span>Next</span>
             <ArrowIcon />
           </div>

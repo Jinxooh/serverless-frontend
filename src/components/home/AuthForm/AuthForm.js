@@ -13,12 +13,14 @@ type Props = {
   email: string,
   sentEmail: boolean,
   sending: boolean,
+  isUser: boolean,
 }
 const AuthForm = ({
   onChange,
   email,
   sentEmail,
   sending,
+  isUser,
   onEnterKeyPress,
   onSendVerification,
 }: Props) => {
@@ -29,7 +31,7 @@ const AuthForm = ({
           <div className="sent-email">
             <CheckIcon />
             <div className="text">
-              We have emailed you a secure link.<br />
+              We have emailed you a secure {isUser ? 'login' : 'register'} link.<br />
               Please click on it to processed.
             </div>
           </div>

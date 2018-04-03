@@ -9,6 +9,7 @@ type Props = {
   email: string,
   sentEmail: boolean,
   sending: boolean,
+  isUser: boolean,
 }
 
 class AuthFormContainer extends Component<Props> {
@@ -32,10 +33,11 @@ class AuthFormContainer extends Component<Props> {
 
   render() {
     const { onChange, onSendVerification, onEnterKeyPress } = this;
-    const { email, sending, sentEmail } = this.props;
+    const { email, sending, sentEmail, isUser } = this.props;
 
     return (
       <AuthForm
+        isUser={isUser}
         email={email}
         sending={sending}
         sentEmail={sentEmail}
@@ -51,6 +53,7 @@ export default connect(
   ({ auth, pender }: State) => ({
     email: auth.email,
     sentEmail: auth.sentEmail,
+    isUser: auth.isUser,
     sending: pender.pending['auth/SEND_AUTH_EMAIL'],
   }),
   () => ({}),
