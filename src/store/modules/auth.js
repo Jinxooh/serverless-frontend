@@ -70,9 +70,9 @@ export default handleActions({
   },
   ...pender({
     type: GET_CODE,
-    onSuccess: (state, { paylaod: { data } }) => {
+    onSuccess: (state, { payload: { data } }) => {
       const { email, registerToken } = data;
-      return state.setIn(['registerFOrm', 'email'], email)
+      return state.setIn(['registerForm', 'email'], email)
         .set('registerToken', registerToken);
     },
   }),

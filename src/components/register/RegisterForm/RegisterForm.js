@@ -24,7 +24,7 @@ const RegisterForm = ({
         <h2>User Information</h2>
       </div>
       <div className="form-contents">
-        <LabelInput value={displayName} name="name" required label="Name" placeholder="Input Your Name" onChange={onChange} />
+        <LabelInput value={displayName} name="displayName" required label="Name" placeholder="Input Your Name" onChange={onChange} />
         <LabelInput value={email} name="email" required label="Email" disabled />
         <LabelInput value={username} name="username" required label="ID" placeholder="Input Your ID" onChange={onChange} />
         <LabelInput value={shortBio} name="shortBio" label="Short Bio" placeholder="Input Your Short Bio" onChange={onChange} />
