@@ -1,18 +1,41 @@
 // @flow
 import React, { Component } from 'react';
+import { withRouter, type Match, type Location } from 'react-router-dom';
 import RegisterForm from 'components/register/RegisterForm';
 import { connect } from 'react-redux';
 import type { State } from 'store';
 import { AuthActions } from 'store/actionCreators';
+import queryString from 'query-string';
 
 type Props = {
   name: string,
   email: string,
   username: string,
-  shortBio: string
+  shortBio: string,
+  match: Match,
+  location: Location,
 };
 
 class RegisterFormContainer extends Component<Props> {
+  initailize = async () => {
+    const { search } = this.props.location;
+    const { code } = queryString.parse(search);
+
+    if (!code) {
+      // Todo: error when no code
+    }
+
+    try {
+      await AuthActions.getCode(code);
+    } catch (e) {
+      // Todo: initialize error
+    }
+  }
+
+  componentDidMount() {
+    this.initailize();
+  }
+
   onChange = (e: SyntheticInputEvent<HTMLInputElement>): void => {
     const { value, name } = e.target;
     AuthActions.changeRegisterForm({
@@ -45,4 +68,4 @@ export default connect(
     };
   },
   () => ({}),
-)(RegisterFormContainer);
+)(withRouter(RegisterFormContainer));

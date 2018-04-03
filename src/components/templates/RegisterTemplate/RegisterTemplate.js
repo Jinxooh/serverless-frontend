@@ -14,13 +14,13 @@ class RegisterTemplate extends Component<Props> {
     const { form } = this.props;
     return (
       <div className="register-template">
-        <BackgroundColor color="#495057" />
+        <BackgroundColor color="#7048e8" />
         <Responsive className="mock-header">
           <div className="brand">
             <span>H</span>eo <span>H</span>ye <span>J</span>ung
           </div>
           <div className="light">
-            <span>/</span>회원가입
+            <span>/</span>Register
           </div>
         </Responsive>
         <section className="rest">
