@@ -5,7 +5,7 @@ import { Home, Register } from 'pages';
 const App = () => (
   <Switch>
     <Route exact path="/" component={Home} />
-    <Route path="/" component={Register} />
+    <Route path="/register" component={Register} />
   </Switch>
 );
 
