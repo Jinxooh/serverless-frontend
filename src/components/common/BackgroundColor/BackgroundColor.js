@@ -21,14 +21,14 @@ class BackgroundColor extends Component<Props> {
     this.setBgColor(color);
   }
 
-  componentWillMount() {
+  componentWillUnmount() {
     if (typeof this.prevColor !== 'string') return;
     this.setBgColor(this.prevColor);
   }
 
   render() {
     return (
-      null
+      <div></div>
     );
   }
 }
