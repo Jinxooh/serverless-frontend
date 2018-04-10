@@ -4,7 +4,9 @@ import { withRouter, type Match, type Location, type RouteHistory } from 'react-
 import RegisterForm from 'components/register/RegisterForm';
 import { connect } from 'react-redux';
 import type { State } from 'store';
-import { AuthActions } from 'store/actionCreators';
+import type { AuthResult } from 'store/modules/auth';
+import { AuthActions, UserActions } from 'store/actionCreators';
+import storage, { keys } from 'lib/storage';
 import queryString from 'query-string';
 
 type Props = {
@@ -16,6 +18,7 @@ type Props = {
   match: Match,
   location: Location,
   history: RouteHistory,
+  authResult: AuthResult,
 };
 
 class RegisterFormContainer extends Component<Props> {
@@ -56,6 +59,15 @@ class RegisterFormContainer extends Component<Props> {
           shortBio,
         },
       });
+
+      const { authResult } = this.props;
+
+      if (!authResult) return;
+      const { token, user } = authResult;
+
+      UserActions.setUser(user);
+      storage.set(keys.user, user);
+
       history.push('/');
     } catch (e) {
       console.log(e);
@@ -80,7 +92,7 @@ class RegisterFormContainer extends Component<Props> {
 
 export default connect(
   ({ auth }: State) => {
-    const { registerForm, registerToken } = auth;
+    const { registerForm, registerToken, authResult } = auth;
     const { displayName, email, username, shortBio } = registerForm;
 
     return {
@@ -89,6 +101,7 @@ export default connect(
       username,
       shortBio,
       registerToken,
+      authResult,
     };
   },
   () => ({}),

@@ -45,4 +45,9 @@ class EmailLogin extends Component<Props> {
   }
 }
 
-export default connect()(EmailLogin);
+export default connect(
+  ({ auth }: State) => ({
+    authResult: auth.authResult,
+  }),
+  () => ({}),
+)(EmailLogin);
