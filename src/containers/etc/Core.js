@@ -14,7 +14,7 @@ class Core extends Component<Props> {
       UserActions.processUser();
       return;
     }
-
+    UserActions.setUser(storeUser);
     try {
       await UserActions.checkUser();
     } catch (e) {

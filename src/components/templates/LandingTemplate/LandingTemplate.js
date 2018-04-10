@@ -1,12 +1,12 @@
 import React from 'react';
 import Responsive from 'components/common/Responsive';
 
-import './HomeTemplate.scss';
+import './LandingTemplate.scss';
 
-const HomeTemplate = ({ form }) => {
+const LandingTemplate = ({ form }) => {
   const title = 'Hye jung\'s Daily Diary';
   return (
-    <div className="home-template">
+    <div className="landing-template">
       <Responsive className="block">
         <div className="left-text">
           <div>
@@ -28,4 +28,4 @@ const HomeTemplate = ({ form }) => {
   );
 };
 
-export default HomeTemplate;
+export default LandingTemplate;
