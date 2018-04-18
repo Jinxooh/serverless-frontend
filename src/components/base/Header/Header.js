@@ -1,7 +1,6 @@
 // @flow
 import React from 'react';
 import Responsive from 'components/common/Responsive';
-import defaultThumbnail from 'static/images/default_thumbnail.png';
 import './Header.scss';
 
 const Header = () => (
@@ -17,7 +16,7 @@ const Header = () => (
         <a href="/">Write</a>
       </nav>
       <div className="right">
-        <img src={defaultThumbnail} alt="adf" />
+        ?
       </div>
     </Responsive>
   </header>
