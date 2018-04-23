@@ -2,9 +2,10 @@
 import React, { Component } from 'react';
 import { UserActions } from 'store/actionCreators';
 import storage, { keys } from 'lib/storage';
+import type { UserData } from 'store/modules/user';
 
 type Props = {
-
+  user: ?UserData,
 };
 
 class Core extends Component<Props> {

@@ -15,9 +15,9 @@ class HeaderContainer extends Component<Props> {
     // declare what to show @ right side of header
     const { user } = this.props;
 
-    // if (!user) {
-    //   return (<div>hey!</div>);
-    // }
+    if (!user) {
+      return (<div>hey!</div>);
+    }
 
     return (
       <UserButtonContainer />

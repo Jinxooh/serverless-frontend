@@ -7,8 +7,8 @@ import { applyPenders } from 'lib/common';
 const CHECK_USER = 'user/CHECK_USER';
 const SET_USER = 'user/SET_USER';
 const PROCESS_USER = 'user/PROCESS_USER';
+const LOGOUT = 'user/LOGOUT';
 
-const checkUser = createAction(CHECK_USER, AuthAPI.check);
 
 type SetUserPayload = {
   id: string,
@@ -16,25 +16,26 @@ type SetUserPayload = {
   displayName: string,
   thumbnail?: ?string,
 }
+
+const checkUser = createAction(CHECK_USER, AuthAPI.check);
 const setUser = createAction(SET_USER, (payload: SetUserPayload) => payload);
 const processUser = createAction(PROCESS_USER);
-// export const actionCreators = {
-//   checkUser: createAction(CHECK_USER, AuthAPI.check),
-//   setUser: createAction(SET_USER),
-// };
+const logout = createAction(LOGOUT, AuthAPI.logout);
 
 type CheckUserAction = ActionType<typeof checkUser>;
 type SetUserAction = ActionType<typeof setUser>;
 type ProcessUserAction = ActionType<typeof processUser>;
+type Logout = ActionType<typeof logout>;
 
 export interface UserActionCreators {
   checkUser(): any,
   setUser({ id: string, username: string, displayName: string }): any,
   processUser(): any,
+  logout(): any,
 }
 
 export const actionCreators: UserActionCreators = {
-  checkUser, setUser, processUser,
+  checkUser, setUser, processUser, logout,
 };
 
 export type UserData = {
