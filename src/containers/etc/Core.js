@@ -1,21 +1,23 @@
 // @flow
 import React, { Component } from 'react';
 import { UserActions } from 'store/actionCreators';
-import storage, { keys } from 'lib/storage';
+import { connect } from 'react-redux';
+import type { State } from 'store';
 import type { UserData } from 'store/modules/user';
+import storage, { keys } from 'lib/storage';
 
 type Props = {
-  user: ?UserData,
+  user: ?UserData
 };
 
 class Core extends Component<Props> {
   checkUser = async () => {
-    const storeUser = storage.get(keys.user);
-    if (!storeUser) {
+    const storedUser = storage.get(keys.user);
+    if (!storedUser) {
       UserActions.processUser();
       return;
     }
-    UserActions.setUser(storeUser);
+    UserActions.setUser(storedUser);
     try {
       await UserActions.checkUser();
     } catch (e) {
@@ -24,8 +26,9 @@ class Core extends Component<Props> {
   }
 
   initialize = async () => {
-    UserActions.checkUser();
+    this.checkUser();
   }
+
   componentDidMount() {
     this.initialize();
   }
@@ -37,4 +40,9 @@ class Core extends Component<Props> {
   }
 }
 
-export default Core;
+export default connect(
+  ({ user }: State) => ({
+    user: user.user,
+  }),
+  () => ({}),
+)(Core);
