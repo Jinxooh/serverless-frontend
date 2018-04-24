@@ -40,6 +40,7 @@ class UserMenuContainer extends Component<Props> {
         onClickOutside={onClickOutside}
         onClick={onClick}
         onLogout={onLogout}
+        eventTypes={['click', 'touchend']}
       />
     );
   }

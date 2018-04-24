@@ -9,7 +9,6 @@ const SET_USER = 'user/SET_USER';
 const PROCESS_USER = 'user/PROCESS_USER';
 const LOGOUT = 'user/LOGOUT';
 
-
 type SetUserPayload = {
   id: string,
   username: string,
@@ -25,7 +24,7 @@ const logout = createAction(LOGOUT, AuthAPI.logout);
 type CheckUserAction = ActionType<typeof checkUser>;
 type SetUserAction = ActionType<typeof setUser>;
 type ProcessUserAction = ActionType<typeof processUser>;
-type Logout = ActionType<typeof logout>;
+type LogoutAction = ActionType<typeof logout>;
 
 export interface UserActionCreators {
   checkUser(): any,

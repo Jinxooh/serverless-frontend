@@ -5,7 +5,12 @@ import { Link } from 'react-router-dom';
 import UserMenuItem from 'components/base/UserMenuItem';
 import './UserMenu.scss';
 
-const UserMenu = ({ onClick, onLogout }) => {
+type Props = {
+  onClick(): void,
+  onLogout(): Promise<*>,
+}
+
+const UserMenu = ({ onClick, onLogout }: Props) => {
   return (
     <div className="user-menu-wrapper">
       <div className="user-menu-positioner">
@@ -17,17 +22,17 @@ const UserMenu = ({ onClick, onLogout }) => {
           </div>
           <div className="menu-items">
             <UserMenuItem>
-              새 글 작성
+              New Post
             </UserMenuItem>
             <UserMenuItem>
-              임시 글
+              Temperary Post
             </UserMenuItem>
             <div className="separator" />
             <UserMenuItem>
-              설정
+              Settings
             </UserMenuItem>
             <UserMenuItem onClick={onLogout}>
-              로그아웃
+              Logout
             </UserMenuItem>
           </div>
         </div>

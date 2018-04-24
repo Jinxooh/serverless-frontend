@@ -103,7 +103,7 @@ export default handleActions({
   }),
   ...pender({
     type: LOCAL_REGISTER,
-    onSuccess: (state, { paylaod: { data } }) => {
+    onSuccess: (state, { payload: { data } }) => {
       const { user, token } = data;
       return state.set('authResult', AuthResultSubrecord({
         user: UserSubrecord(user),
