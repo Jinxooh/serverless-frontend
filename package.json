@@ -35,7 +35,7 @@
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.8",
     "promise": "8.0.1",
-    "query-string": "^6.0.0",
+    "query-string": "^5.0.1",
     "raf": "3.4.0",
     "react": "^16.3.1",
     "react-dev-utils": "^5.0.0",
@@ -60,7 +60,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom",
+    "deploy": "aws s3 sync ./build s3://cdn.lovehhj.com/"
   },
   "jest": {
     "collectCoverageFrom": [
