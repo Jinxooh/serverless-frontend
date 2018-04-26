@@ -61,7 +61,8 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "deploy": "aws s3 sync ./build s3://cdn.lovehhj.com/"
+    "deploy": "aws s3 sync ./build s3://cdn.lovehhj.com/",
+    "invalidate": "aws cloudfront create-invalidation --distribution-id E2W5QSCJ7T8BRY --paths / /index.html /error.html /service-worker.js /manifest.json /favicon.ico"
   },
   "jest": {
     "collectCoverageFrom": [
