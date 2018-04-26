@@ -1,10 +1,10 @@
 // @flow
-import * as React from 'react';
+import React, { type Node } from 'react';
 import './PageTemplate.scss';
 
 type Props = {
-  header: React.ReactNode,
-  children: React.ReactNode,
+  header: Node,
+  children: Node,
 }
 
 const PageTemplate = ({ header, children } : Props) => {

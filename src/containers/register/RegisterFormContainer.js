@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { withRouter, type Match, type Location, type RouteHistory } from 'react-router-dom';
+import { withRouter, type Match, type Location, type RouterHistory } from 'react-router-dom';
 import RegisterForm from 'components/register/RegisterForm';
 import { connect } from 'react-redux';
 import type { State } from 'store';
@@ -17,7 +17,7 @@ type Props = {
   registerToken: string,
   match: Match,
   location: Location,
-  history: RouteHistory,
+  history: RouterHistory,
   authResult: AuthResult,
 };
 
