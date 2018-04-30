@@ -39,12 +39,12 @@ class AuthFormContainer extends Component<Props> {
     }
   }
 
-  onSocialLoigin = (provider: string) => {
+  onSocialLogin = (provider: string) => {
     AuthActions.socialLogin(provider);
   }
 
   render() {
-    const { onChange, onSendVerification, onEnterKeyPress, onSocialLoigin } = this;
+    const { onChange, onSendVerification, onEnterKeyPress, onSocialLogin } = this;
     const { email, sending, sentEmail, isUser } = this.props;
 
     return (
@@ -56,7 +56,7 @@ class AuthFormContainer extends Component<Props> {
         onChange={onChange}
         onSendVerification={onSendVerification}
         onEnterKeyPress={onEnterKeyPress}
-        onSocialLoigin={onSocialLoigin}
+        onSocialLogin={onSocialLogin}
       />
     );
   }
