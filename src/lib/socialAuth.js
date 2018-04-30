@@ -1,9 +1,16 @@
+// @flow
 import hello from 'hellojs';
 
 hello.init({
-  github: '7c3902d881910d52ae3e',
+  github: 'b982580b006422863c8b',
+  facebook: '1628308210539452',
+  google: '139098807676-l1t6m8ofj4c65ps7ai39ms6vhcogho3j.apps.googleusercontent.com',
 }, {
   redirect_uri: 'callback',
 });
 
-window.hello = hello;
+export const github = (): Promise<*> => hello.login('github');
+export const facebook = (): Promise<*> => hello.login('facebook', { scope: 'email, public_profile' });
+export const google = (): Promise<*> => hello.login('google', {
+  scope: 'https://www.googleapis.com/auth/userinfo.email',
+});

@@ -3,6 +3,7 @@ import { createAction, handleActions } from 'redux-actions';
 import { Record } from 'immutable';
 import { pender } from 'redux-pender';
 import * as AuthAPI from 'lib/api/auth';
+import * as socialAuth from 'lib/socialAuth';
 
 const SET_EMAIL_INPUT = 'auth/SET_EMAIL_INPUT';
 const SEND_AUTH_EMAIL = 'auth/SEND_AUTH_EMAIL';
@@ -11,6 +12,8 @@ const GET_CODE = 'auth/GET_CODE';
 const LOCAL_REGISTER = 'auth/LOCAL_REGISTER';
 const CODE_LOGIN = 'auth/CODE_LOGIN';
 
+const SOCIAL_LOGIN = 'auth/SOCIAL_LOGIN';
+
 export const actionCreators = {
   setEmailInput: createAction(SET_EMAIL_INPUT),
   sendAuthEmail: createAction(SEND_AUTH_EMAIL, AuthAPI.sendAuthEmail),
@@ -18,6 +21,7 @@ export const actionCreators = {
   getCode: createAction(GET_CODE, AuthAPI.getCode),
   localRegister: createAction(LOCAL_REGISTER, AuthAPI.localRegister),
   codeLogin: createAction(CODE_LOGIN, AuthAPI.codeLogin),
+  socialLogin: createAction(SOCIAL_LOGIN, provider => socialAuth[provider](), provider => provider),
 };
 
 export type AuthActionCreators = {
@@ -27,6 +31,7 @@ export type AuthActionCreators = {
   getCode(code: string): any,
   localRegister(payload: AuthAPI.LocalRegisterPayload): any,
   codeLogin(code: string): any,
+  socialLogin(provider: string): any,
 }
 
 export type AuthResult = ?{
@@ -37,6 +42,11 @@ export type AuthResult = ?{
   },
   token: string,
 };
+
+export type SocialAuthResult = ?{
+  provider: string,
+  accessToken: string,
+}
 
 export type Auth = {
   email: string,
@@ -50,6 +60,7 @@ export type Auth = {
   },
   registerToken: string,
   authResult: AuthResult,
+  socialAuthResult: SocialAuthResult,
 };
 
 const UserSubrecord = Record({
@@ -61,6 +72,11 @@ const UserSubrecord = Record({
 const AuthResultSubrecord = Record({
   user: UserSubrecord(),
   token: '',
+});
+
+const SocialAuthResultSubrecord = Record({
+  provider: '',
+  accessToken: '',
 });
 
 const AuthRecord = Record(({
@@ -75,6 +91,7 @@ const AuthRecord = Record(({
   })(),
   registerToken: '',
   authResult: null,
+  socialAuthResult: null,
 }: Auth));
 
 const initialState: Auth = AuthRecord();
@@ -118,6 +135,17 @@ export default handleActions({
       return state.set('authResult', AuthResultSubrecord({
         user: UserSubrecord(user),
         token,
+      }));
+    },
+  }),
+  ...pender({
+    type: SOCIAL_LOGIN,
+    onSuccess: (state, { payload: response, meta: provider }) => {
+      if (!response) return state;
+      const { access_token: accessToken } = response.authResponse;
+      return state.set('socialAuthResult', SocialAuthResultSubrecord({
+        accessToken,
+        provider,
       }));
     },
   }),

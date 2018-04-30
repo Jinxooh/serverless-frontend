@@ -39,16 +39,12 @@ class AuthFormContainer extends Component<Props> {
     }
   }
 
-  onGithubLogin = () => {
-    window.name = 'lovehhj App';
-    const clientId = 'b982580b006422863c8b';
-    const url = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=http://localhost:3000/callback`;
-
-    const githubLogin = popup(url, 'githubLogin', 400, 730);
+  onSocialLoigin = (provider: string) => {
+    AuthActions.socialLogin(provider);
   }
 
   render() {
-    const { onChange, onSendVerification, onEnterKeyPress, onGithubLogin } = this;
+    const { onChange, onSendVerification, onEnterKeyPress, onSocialLoigin } = this;
     const { email, sending, sentEmail, isUser } = this.props;
 
     return (
@@ -60,7 +56,7 @@ class AuthFormContainer extends Component<Props> {
         onChange={onChange}
         onSendVerification={onSendVerification}
         onEnterKeyPress={onEnterKeyPress}
-        onGithubLogin={onGithubLogin}
+        onSocialLoigin={onSocialLoigin}
       />
     );
   }
