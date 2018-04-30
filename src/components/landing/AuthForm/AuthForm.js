@@ -10,6 +10,7 @@ type Props = {
   onChange(e: Event): void,
   onEnterKeyPress(e: KeyboardEvent): void,
   onSendVerification(): Promise<*>,
+  onGithubLogin(): void,
   email: string,
   sentEmail: boolean,
   sending: boolean,
@@ -23,6 +24,7 @@ const AuthForm = ({
   isUser,
   onEnterKeyPress,
   onSendVerification,
+  onGithubLogin,
 }: Props) => {
   return (
     <div className="auth-form">
@@ -54,7 +56,7 @@ const AuthForm = ({
         <div className="or">OR</div>
       </div>
       <div className="social-buttons">
-        <SocialLoginButton type="github" />
+        <SocialLoginButton type="github" onClick={onGithubLogin} />
         <SocialLoginButton type="google" />
         <SocialLoginButton type="facebook" />
       </div>
