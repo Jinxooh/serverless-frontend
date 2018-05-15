@@ -1,30 +1,64 @@
 // @flow
-import { createAction, handleActions } from 'redux-actions';
-import { Record } from 'immutable';
+import { createAction, handleActions, type ActionType } from 'redux-actions';
+import produce from 'immer';
 import { pender } from 'redux-pender';
 import * as AuthAPI from 'lib/api/auth';
 import * as socialAuth from 'lib/socialAuth';
+import { applyPenders } from 'lib/common';
 
+/* ACTION TYPE */
 const SET_EMAIL_INPUT = 'auth/SET_EMAIL_INPUT';
 const SEND_AUTH_EMAIL = 'auth/SEND_AUTH_EMAIL';
 const CHANGE_REGISTER_FORM = 'auth/CHANGE_REGISTER_FORM';
 const GET_CODE = 'auth/GET_CODE';
 const LOCAL_REGISTER = 'auth/LOCAL_REGISTER';
 const CODE_LOGIN = 'auth/CODE_LOGIN';
-
 const SOCIAL_LOGIN = 'auth/SOCIAL_LOGIN';
+const VERIFY_SOCIAL = 'auth/VERIFY_SOCIAL';
+const SOCIAL_REGISTER = 'auth/SOCIAL_REGISTER';
+const SOCIAL_LOVEHHJ_LOGIN = 'auth/SOCIAL_LOVEHHJ_LOGIN';
+const AUTOCOMPLETE_REGISTER_FORM = 'auth/AUTOCOMPLETE_REGISTER_FORM';
 
-export const actionCreators = {
-  setEmailInput: createAction(SET_EMAIL_INPUT),
-  sendAuthEmail: createAction(SEND_AUTH_EMAIL, AuthAPI.sendAuthEmail),
-  changeRegisterForm: createAction(CHANGE_REGISTER_FORM),
-  getCode: createAction(GET_CODE, AuthAPI.getCode),
-  localRegister: createAction(LOCAL_REGISTER, AuthAPI.localRegister),
-  codeLogin: createAction(CODE_LOGIN, AuthAPI.codeLogin),
-  socialLogin: createAction(SOCIAL_LOGIN, provider => socialAuth[provider](), provider => provider),
+
+/* ACTION CREATOR */
+const setEmailInput = createAction(SET_EMAIL_INPUT, (value: string) => value);
+const sendAuthEmail = createAction(SEND_AUTH_EMAIL, AuthAPI.sendAuthEmail);
+const getCode = createAction(GET_CODE, AuthAPI.getCode);
+
+type ChangeRegisterFormPayload = { name: string, value: string };
+const changeRegisterForm = createAction(CHANGE_REGISTER_FORM,
+  (payload: ChangeRegisterFormPayload) => payload);
+
+const localRegister = createAction(LOCAL_REGISTER, AuthAPI.localRegister);
+const codeLogin = createAction(CODE_LOGIN, AuthAPI.codeLogin);
+const socialLogin = createAction(SOCIAL_LOGIN,
+  (provider: string) => socialAuth[provider](), provider => provider);
+const verifySocial = createAction(VERIFY_SOCIAL, AuthAPI.verifySocial);
+const socialRegister = createAction(SOCIAL_REGISTER, AuthAPI.socialRegister);
+const socialLoveHHJLogin = createAction(SOCIAL_LOVEHHJ_LOGIN, AuthAPI.socialLogin);
+
+type AutoCompleteFormPayload = {
+  email: string,
+  name: string
 };
+const autoCompleteRegisterForm = createAction(AUTOCOMPLETE_REGISTER_FORM,
+  (payload: AutoCompleteFormPayload) => payload);
 
-export type AuthActionCreators = {
+/* ACTION FLOW TYPE */
+type SetEmailInputAction = ActionType<typeof setEmailInput>;
+type SendAuthEmailAction = ActionType<typeof sendAuthEmail>;
+type GetCodeAction = ActionType<typeof getCode>;
+type ChangeRegisterFormAction = ActionType<typeof changeRegisterForm>;
+type LocalRegisterAction = ActionType<typeof localRegister>;
+type CodeLoginAction = ActionType<typeof codeLogin>;
+type SocialLoginAction = ActionType<typeof socialLogin>;
+type VerifySocialAction = ActionType<typeof verifySocial>;
+type SocialRegisterAction = ActionType<typeof socialRegister>;
+type SocialLoveHHJLoginAction = ActionType<typeof socialLoveHHJLogin>;
+type AutoCompleteRegisterForm = ActionType<typeof autoCompleteRegisterForm>;
+
+/* ACTION CREATORS INTERFACE */
+export interface AuthActionCreators {
   setEmailInput(value: string): any,
   sendAuthEmail(email: string): any,
   changeRegisterForm({ name: string, value: string }): any,
@@ -32,21 +66,50 @@ export type AuthActionCreators = {
   localRegister(payload: AuthAPI.LocalRegisterPayload): any,
   codeLogin(code: string): any,
   socialLogin(provider: string): any,
+  verifySocial(payload: AuthAPI.VerifySocialPayload): any,
+  socialRegister(payload: AuthAPI.SocialRegisterPayload): any,
+  socialLoveHHJLogin(payload: AuthAPI.SocialLoginPayload): any,
+  autoCompleteRegisterForm(payload: AutoCompleteFormPayload): any
 }
+
+/* EXPORT ACTION CREATORS */
+export const actionCreators: AuthActionCreators = {
+  setEmailInput,
+  sendAuthEmail,
+  changeRegisterForm,
+  getCode,
+  localRegister,
+  codeLogin,
+  socialLogin,
+  verifySocial,
+  socialRegister,
+  socialLoveHHJLogin,
+  autoCompleteRegisterForm,
+};
+
+/* STATE TYPES */
+export type SocialAuthResult = ?{
+  provider: string,
+  accessToken: string
+};
 
 export type AuthResult = ?{
   user: {
     id: string,
     username: string,
     displayName: string,
+    thumbnail?: ?string,
   },
-  token: string,
+  token: string
 };
 
-export type SocialAuthResult = ?{
-  provider: string,
-  accessToken: string,
-}
+export type VerifySocialResult = ?{
+  id: string,
+  thumbnail: ?string,
+  email: ?string,
+  name: ?string,
+  exists: boolean,
+};
 
 export type Auth = {
   email: string,
@@ -56,97 +119,148 @@ export type Auth = {
     displayName: string,
     email: string,
     username: string,
-    shortBio: string,
+    shortBio: string
   },
+  isSocial: boolean,
   registerToken: string,
   authResult: AuthResult,
   socialAuthResult: SocialAuthResult,
+  verifySocialResult: VerifySocialResult,
 };
 
-const UserSubrecord = Record({
-  id: '',
-  username: '',
-  displayName: '',
-});
-
-const AuthResultSubrecord = Record({
-  user: UserSubrecord(),
-  token: '',
-});
-
-const SocialAuthResultSubrecord = Record({
-  provider: '',
-  accessToken: '',
-});
-
-const AuthRecord = Record(({
+/* INITIAL STATE */
+const initialState: Auth = {
   email: '',
   sentEmail: false,
   isUser: false,
-  registerForm: Record({
+  registerForm: {
     displayName: '',
     email: '',
     username: '',
     shortBio: '',
-  })(),
+  },
+  isSocial: false,
   registerToken: '',
   authResult: null,
   socialAuthResult: null,
-}: Auth));
+  verifySocialResult: null,
+};
 
-const initialState: Auth = AuthRecord();
-
-export default handleActions({
-  [SET_EMAIL_INPUT]: (state: AuthRecord, { payload: value }) => {
-    return state.set('email', value);
+/* REDUCER */
+const reducer = handleActions({
+  [SET_EMAIL_INPUT]: (state, action: SetEmailInputAction) => {
+    return produce(state, (draft) => {
+      if (!action) return;
+      draft.email = action.payload;
+    });
   },
-  ...pender({
+  [CHANGE_REGISTER_FORM]: (state, action: ChangeRegisterFormAction) => {
+    const { payload: { name, value } } = action;
+    return produce(state, (draft) => {
+      draft.registerForm[name] = value;
+    });
+  },
+  [AUTOCOMPLETE_REGISTER_FORM]: (state, action: AutoCompleteRegisterForm) => {
+    const { email, name } = action.payload;
+    return produce(state, (draft) => {
+      draft.registerForm = {
+        displayName: name,
+        email,
+        shortBio: '',
+        username: '',
+      };
+      draft.isSocial = true;
+    });
+  },
+}, initialState);
+
+export default applyPenders(reducer, [
+  {
     type: SEND_AUTH_EMAIL,
-    onSuccess: (state, { payload: { data } }) => {
-      return state.set('sentEmail', true)
-        .set('isUser', data.isUser);
+    onSuccess: (state: Auth, { payload: { data } }) => {
+      return produce(state, (draft) => {
+        draft.sentEmail = true;
+        draft.isUser = data.isUser; // TODO: snake_case
+      });
     },
-  }),
-  [CHANGE_REGISTER_FORM]: (state, { payload: { name, value } }) => {
-    return state.setIn(['registerForm', name], value);
   },
-  ...pender({
+  {
     type: GET_CODE,
-    onSuccess: (state, { payload: { data } }) => {
+    onSuccess: (state: Auth, { payload: { data } }) => {
       const { email, registerToken } = data;
-      return state.setIn(['registerForm', 'email'], email)
-        .set('registerToken', registerToken);
+      return produce(state, (draft) => {
+        draft.registerForm.email = email;
+        draft.registerToken = registerToken;
+      });
     },
-  }),
-  ...pender({
+  },
+  {
     type: LOCAL_REGISTER,
-    onSuccess: (state, { payload: { data } }) => {
+    onSuccess: (state: Auth, { payload: { data } }) => {
       const { user, token } = data;
-      return state.set('authResult', AuthResultSubrecord({
-        user: UserSubrecord(user),
-        token,
-      }));
+      return produce(state, (draft) => {
+        draft.authResult = {
+          user,
+          token,
+        };
+      });
     },
-  }),
-  ...pender({
+  },
+  {
     type: CODE_LOGIN,
-    onSuccess: (state, { payload: { data } }) => {
+    onSuccess: (state: Auth, { payload: { data } }) => {
       const { user, token } = data;
-      return state.set('authResult', AuthResultSubrecord({
-        user: UserSubrecord(user),
-        token,
-      }));
+      return produce(state, (draft) => {
+        draft.authResult = {
+          user,
+          token,
+        };
+      });
     },
-  }),
-  ...pender({
+  },
+  {
     type: SOCIAL_LOGIN,
-    onSuccess: (state, { payload: response, meta: provider }) => {
+    onSuccess: (state: Auth, { payload: response, meta: provider }) => {
       if (!response) return state;
       const { access_token: accessToken } = response.authResponse;
-      return state.set('socialAuthResult', SocialAuthResultSubrecord({
-        accessToken,
-        provider,
-      }));
+      return produce(state, (draft) => {
+        draft.socialAuthResult = {
+          accessToken,
+          provider,
+        };
+      });
     },
-  }),
-}, initialState);
+  },
+  {
+    type: VERIFY_SOCIAL,
+    onSuccess: (state: Auth, { payload: response }) => {
+      const { profile, exists } = response.data;
+      const { id, thumbnail, email, name } = profile;
+      return produce(state, (draft) => {
+        draft.verifySocialResult = {
+          id, thumbnail, email, name, exists,
+        };
+      });
+    },
+  },
+  {
+    type: SOCIAL_LOVEHHJ_LOGIN,
+    onSuccess: (state: Auth, { payload: { data } }) => {
+      const { user, token } = data;
+      return produce(state, (draft) => {
+        draft.authResult = {
+          user, token,
+        };
+      });
+    },
+  },
+  {
+    type: SOCIAL_REGISTER,
+    onSuccess: (state: Auth, { payload: { data } }) => {
+      const { user, token } = data;
+      return produce(state, (draft) => {
+        draft.authResult = { user, token };
+      });
+    },
+  },
+]);
