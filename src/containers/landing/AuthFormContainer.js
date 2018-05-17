@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, type RouterHistory } from 'react-router-dom';
-import { AuthActions, UserActions } from 'store/actionCreators';
+import { AuthActions, UserActions, BaseActions } from 'store/actionCreators';
 import type { State } from 'store';
 import AuthForm from 'components/landing/AuthForm';
 import { pressedEnter } from 'lib/common';
@@ -42,10 +42,13 @@ class AuthFormContainer extends Component<Props> {
   }
 
   onSocialLogin = async (provider: string) => {
+    BaseActions.setFullscreenLoader(true);
     try {
       await AuthActions.socialLogin(provider);
     } catch (e) {
       // TODO: handle social login error
+      BaseActions.setFullscreenLoader(false);
+      return;
     }
 
     try {
@@ -60,7 +63,7 @@ class AuthFormContainer extends Component<Props> {
       const { exists } = verifySocialResult;
 
       if (exists) { // exists -> login
-        await AuthActions.socialVelogLogin({ accessToken, provider });
+        await AuthActions.socialLoveHHJLogin({ accessToken, provider });
         const { authResult } = this.props;
         if (!authResult) return;
         const { user } = authResult;
@@ -79,6 +82,7 @@ class AuthFormContainer extends Component<Props> {
     } catch (e) {
       // TODO: verify error
     }
+    BaseActions.setFullscreenLoader(false);
   }
 
   render() {
