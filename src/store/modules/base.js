@@ -15,7 +15,7 @@ export type BaseActionCreators = {
 export const actionCreators: BaseActionCreators = {
   showUserMenu: createAction(SHOW_USER_MENU),
   hideUserMenu: createAction(HIDE_USER_MENU),
-  setFullscreenLoader: createActions(SET_FULLSCREEN_LOADER);
+  setFullscreenLoader: createAction(SET_FULLSCREEN_LOADER),
 };
 
 export type Base = {
@@ -37,7 +37,7 @@ const reducer = handleActions({
   }),
   [SET_FULLSCREEN_LOADER]: (state, { payload: visibility }) => produce(state, (draft) => {
     draft.fullscreenLoader = visibility;
-  })
+  }),
 }, initialState);
 
 export default reducer;

@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import FullscreenLoader from 'components/base/FullscrenLoader';
+import FullscreenLoader from 'components/base/FullscreenLoader';
 import { connect } from 'react-redux';
 import type { State } from 'store';
 
