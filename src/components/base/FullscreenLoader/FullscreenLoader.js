@@ -8,6 +8,7 @@ type Props = {
 }
 
 const FullscreenLoader = ({ visible }: Props) => {
+  if (!visible) return null;
   return (
     <div className="FullscreenLoader">
       <Spinner />
