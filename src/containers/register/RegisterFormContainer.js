@@ -30,6 +30,7 @@ class RegisterFormContainer extends Component<Props> {
     const { code } = queryString.parse(search);
 
     if (!code) {
+      return;
       // Todo: error when no code
     }
 
