@@ -6,18 +6,19 @@ import UserMenuItem from 'components/base/UserMenuItem';
 import './UserMenu.scss';
 
 type Props = {
+  username: string,
   onClick(): void,
   onLogout(): Promise<*>,
 }
 
-const UserMenu = ({ onClick, onLogout }: Props) => {
+const UserMenu = ({ onClick, onLogout, username }: Props) => {
   return (
     <div className="user-menu-wrapper">
       <div className="user-menu-positioner">
         <div className="user-menu" onClick={onClick}>
           <div className="me">
             <div className="username">
-              @jeckson
+              @{username}
             </div>
           </div>
           <div className="menu-items">
