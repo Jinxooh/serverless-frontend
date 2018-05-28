@@ -1,5 +1,5 @@
 import React from 'react';
-import './WriteTemplate';
+import './WriteTemplate.scss';
 
 const WriteTemplate = ({ header, panes }) => {
   return (
