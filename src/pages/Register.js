@@ -1,5 +1,5 @@
 import React from 'react';
-import RegisterTemplate from 'components/templates/RegisterTemplate';
+import RegisterTemplate from 'components/register/RegisterTemplate';
 import RegisterFormContainer from 'containers/register/RegisterFormContainer';
 
 const Register = () => {
