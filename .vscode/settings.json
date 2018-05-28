@@ -1,5 +1,7 @@
 {
   "editor.tabSize": 2,
   "javascript.validate.enable": false,
-  "typescript.tsserver.log": "verbose"
+  "typescript.tsserver.log": "verbose",
+  // "editor.formatOnSave": true,
+  "prettier.eslintIntegration": true
 }

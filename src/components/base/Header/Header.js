@@ -15,10 +15,10 @@ const Header = ({ right, userMenu }: Props) => (
         <span>H</span>eo <span>H</span>ye <span>J</span>ung
       </div>
       <nav>
-        <a className="active" href="/">Recent</a>
-        <a href="/">Trending</a>
-        <a href="/">Tag</a>
-        <a href="/">Write</a>
+        <a className="active" href="/recent">Recent</a>
+        <a href="/trending">Trending</a>
+        <a href="/tag">Tag</a>
+        <a href="/write">Write</a>
       </nav>
       <div className="right">
         {right}
