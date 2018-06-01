@@ -3,7 +3,7 @@ import hello from 'hellojs';
 
 hello.init({
   github: 'b982580b006422863c8b',
-  facebook: '1628308210539452',
+  facebook: '2044163455797433',
   google: '139098807676-l1t6m8ofj4c65ps7ai39ms6vhcogho3j.apps.googleusercontent.com',
 }, {
   redirect_uri: 'callback',
