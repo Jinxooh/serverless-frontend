@@ -5,7 +5,9 @@ const WriteTemplate = ({ header, panes }) => {
   return (
     <div className="WriteTemplate">
       {header}
-      <div className="rest">Sup</div>
+      <div className="rest">
+        {panes}
+      </div>
     </div>
   );
 };

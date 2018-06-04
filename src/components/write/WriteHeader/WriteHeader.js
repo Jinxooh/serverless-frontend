@@ -7,7 +7,7 @@ const WriteHeader = () => {
     <div className="WriteHeader">
       <BackIcon className="back-icon" />
       <div className="title-area">
-        <input placeholder="input title" />
+        <input placeholder="input title" autoFocus />
       </div>
       <div className="submit-button">Submit</div>
     </div>
