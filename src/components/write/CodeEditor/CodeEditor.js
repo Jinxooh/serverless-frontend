@@ -47,7 +47,7 @@ class CodeEditor extends Component<Props, State> {
       lineWrapping: true, // 내용이 너무 길면 다음 줄에 작성
       scrollbarStyle: 'overlay',
     });
-    this.codeMirror.on('change', this.onChage);
+    this.codeMirror.on('change', this.onChange);
   }
 
   onChange = (doc: any) => {
