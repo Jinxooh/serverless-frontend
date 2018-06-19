@@ -1,13 +1,10 @@
 import { createAction, handleActions, type ActionType } from 'redux-actions';
 import produce from 'immer';
 
-const EDIT_BODY = 'write/EDIT_BODY';
 const EDIT_FIELD = 'write/EDIT_FIELD';
 
-const editBody = createAction(EDIT_BODY);
 const editField = createAction(EDIT_FIELD);
 
-type EditBody = ActionType<typeof editBody>;
 type EditField = ActionType<typeof editField>;
 
 export interface WriteActionCreators {
@@ -16,22 +13,25 @@ export interface WriteActionCreators {
 }
 
 export const actionCreators: WriteActionCreators = {
-  editBody, editField,
+  editField,
 };
 
 export type Write = {
   body: string,
+  title: string,
 }
 
 const initialState: Write = {
   body: '',
+  title: '',
 };
 
 export default handleActions({
-  [EDIT_BODY]: (state, action: EditBody) => {
+
+  [EDIT_FIELD]: (state, action: EditField) => {
     return produce(state, (draft) => {
-      console.log(action.payload);
-      draft.body = action.payload;
+      const { field, value } = action.payload;
+      draft[field] = value;
     });
   },
 }, initialState);
