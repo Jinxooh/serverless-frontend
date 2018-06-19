@@ -1,6 +1,11 @@
 // @flow
 import marked from 'marked';
 import React, { Component } from 'react';
+import Prism from 'prismjs';
+import 'prismjs/components/prism-bash.min';
+import 'prismjs/components/prism-javascript.min';
+import 'prismjs/components/prism-jsx.min';
+import 'prismjs/components/prism-css.min';
 import './MarkdownRender.scss';
 
 type Props = {
@@ -28,14 +33,23 @@ export default class MarkdownRender extends Component<Props, State> {
     html: '',
   }
   renderMarkdown() {
+    const rendered = marked(this.props.body);
     this.setState({
-      html: marked(this.props.body),
+      html: rendered,
     });
+  }
+
+  renderPrism() {
+    if (!Prism) return;
+    Prism.highlightAll();
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
     if (prevProps.body !== this.props.body) {
       this.renderMarkdown();
+    }
+    if (prevProps.html !== this.state.html) {
+      this.renderPrism();
     }
   }
 
@@ -43,7 +57,7 @@ export default class MarkdownRender extends Component<Props, State> {
     const { html } = this.state;
     const markup = { __html: html };
     return (
-      <div className="MarkdownRender" dangerouslySetInnerHTML={markup} />
+      <div className="MarkdownRender atom-one" dangerouslySetInnerHTML={markup} />
     );
   }
 }
