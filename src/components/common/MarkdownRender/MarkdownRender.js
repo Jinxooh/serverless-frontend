@@ -57,7 +57,7 @@ export default class MarkdownRender extends Component<Props, State> {
     const { html } = this.state;
     const markup = { __html: html };
     return (
-      <div className="MarkdownRender atom-one" dangerouslySetInnerHTML={markup} />
+      <div className="MarkdownRender atom-one" dangerouslySetInnerHTML={markup} id="markdown-render" />
     );
   }
 }
