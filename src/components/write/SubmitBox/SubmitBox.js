@@ -1,11 +1,39 @@
+// @flow
 import React, { Component } from 'react';
 import './SubmitBox.scss';
 
-class SubmitBox extends Component {
+type Props = {
+  isEditing: boolean,
+  SelectCategory: any,
+  inputTags: any,
+}
+
+class SubmitBox extends Component<Props> {
+  static defaultProps = {
+    isEditing: false,
+  }
   render() {
+    const { isEditing, SelectCategory, inputTags } = this.props;
     return (
       <div className="SubmitBox">
-        im Submit box
+        <div className="title">
+          {isEditing ? 'Modifiy' : 'Write New Post'}
+        </div>
+        <div className="sections">
+          <section>
+            <div className="section-title">
+              Select Category
+            </div>
+            {SelectCategory}
+          </section>
+          <section>
+            <div className="section-title">
+              Set Tag
+            </div>
+            {inputTags}
+          </section>
+        </div>
+
       </div>
     );
   }
