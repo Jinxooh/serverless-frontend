@@ -22,7 +22,7 @@ const Tag = ({ name }) => (
 );
 
 class InputTags extends Component<Props, State> {
-  ststic defaultProps = {
+  static defaultProps = {
     tags: ['tag1 ', 'tag2', 'tag3'],
   };
 
@@ -42,7 +42,7 @@ class InputTags extends Component<Props, State> {
       e.preventDefault();
     }
   }
-  
+
   onButtonClick = () => {
     this.setState({
       input: '',
