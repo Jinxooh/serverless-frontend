@@ -10,7 +10,7 @@ import type { Categories } from 'store/modules/write';
 
 type Props = {
   open: boolean,
-  categoires: ?Categories,
+  categories: ?Categories,
 }
 
 class SubmitBoxContainer extends Component<Props> {
@@ -36,11 +36,11 @@ class SubmitBoxContainer extends Component<Props> {
 
   render() {
     const { onClose, onToggleCategory } = this;
-    const { open, categoires } = this.props;
+    const { open, categories } = this.props;
 
     return (
       <SubmitBox
-        selectCategory={<SelectCategory categories={categoires} onToggle={onToggleCategory} />}
+        selectCategory={<SelectCategory categories={categories} onToggle={onToggleCategory} />}
         inputTags={<InputTags tags={['hihi', 'gogogoe']} />}
         visible={open}
         onClose={onClose}
@@ -53,7 +53,7 @@ class SubmitBoxContainer extends Component<Props> {
 export default connect(
   ({ write }: State) => ({
     open: write.submitBox.open,
-    categories: write.categories,
+    categories: write.submitBox.categories,
   }),
   () => ({}),
 )(SubmitBoxContainer);

@@ -7,7 +7,7 @@ import './SubmitBox.scss';
 
 type Props = {
   isEditing: boolean,
-  SelectCategory: any,
+  selectCategory: any,
   inputTags: any,
   visible: boolean,
   onClose(): void,
@@ -51,7 +51,7 @@ class SubmitBox extends Component<Props, State> {
     }, 150);
   }
   render() {
-    const { isEditing, SelectCategory, inputTags, visible } = this.props;
+    const { isEditing, selectCategory, inputTags, visible } = this.props;
     const { animating } = this.state;
 
     if (!visible && !animating) return null;
@@ -66,7 +66,7 @@ class SubmitBox extends Component<Props, State> {
             <div className="section-title">
               Select Category
             </div>
-            {SelectCategory}
+            {selectCategory}
           </section>
           <section>
             <div className="section-title">
