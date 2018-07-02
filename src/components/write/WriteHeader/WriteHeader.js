@@ -5,11 +5,13 @@ import './WriteHeader.scss';
 
 type Props = {
   onChangeTitle(e: any): void,
+  onOpenSubmitBox(): void,
   title: string,
 }
 
 const WriteHeader = ({
   onChangeTitle,
+  onOpenSubmitBox,
   title,
 }) => {
   return (
@@ -27,7 +29,7 @@ const WriteHeader = ({
         <div className="button temp-save">
           Temp
         </div>
-        <div className="button submit">
+        <div className="button submit" onClick={onOpenSubmitBox}>
           Submit
         </div>
         <div className="more util flex-center">
