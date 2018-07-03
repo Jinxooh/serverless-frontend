@@ -50,8 +50,8 @@ class SubmitBoxContainer extends Component<Props> {
     console.log({
       title,
       body,
-      categories: categories ? categories.filter(c => c.active).map(c => c.id).toJS() : [],
-      tags: tags.toJS(),
+      categories: categories ? categories.filter(c => c.active).map(c => c.id) : [],
+      tags,
     });
   }
   render() {
