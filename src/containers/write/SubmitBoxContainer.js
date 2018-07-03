@@ -1,4 +1,5 @@
 // @flow
+
 import React, { Component } from 'react';
 import SubmitBox from 'components/write/SubmitBox';
 import SelectCategory from 'components/write/SelectCategory';
@@ -11,6 +12,9 @@ import type { Categories } from 'store/modules/write';
 type Props = {
   open: boolean,
   categories: ?Categories,
+  tags: Array<string>,
+  title: string,
+  body: string,
 }
 
 class SubmitBoxContainer extends Component<Props> {
@@ -21,39 +25,61 @@ class SubmitBoxContainer extends Component<Props> {
       console.log(e);
     }
   }
-
   componentDidMount() {
     this.initialize();
   }
-
+  onInsertTag = (tag) => {
+    const { tags } = this.props;
+    const processedTag = tag.trim();
+    if (processedTag === '') return;
+    if (tags.indexOf(tag) !== -1) return;
+    WriteActions.insertTag(tag);
+  }
+  onRemoveTag = (tag) => {
+    WriteActions.removeTag(tag);
+  }
   onClose = () => {
     WriteActions.closeSubmitBox();
   }
-
   onToggleCategory = (id) => {
     WriteActions.toggleCategory(id);
   }
+  onSubmit = () => {
+    const { categories, tags, body, title } = this.props;
 
+    console.log({
+      title,
+      body,
+      categories: categories ? categories.filter(c => c.active).map(c => c.id).toJS() : [],
+      tags: tags.toJS(),
+    });
+  }
   render() {
-    const { onClose, onToggleCategory } = this;
-    const { open, categories } = this.props;
-
+    const { onClose, onToggleCategory, onInsertTag, onRemoveTag, onSubmit } = this;
+    const { open, categories, tags } = this.props;
     return (
       <SubmitBox
         selectCategory={<SelectCategory categories={categories} onToggle={onToggleCategory} />}
-        inputTags={<InputTags tags={['hihi', 'gogogoe']} />}
+        inputTags={<InputTags
+          tags={tags}
+          onInsert={onInsertTag}
+          onRemove={onRemoveTag}
+        />}
         visible={open}
         onClose={onClose}
+        onSubmit={onSubmit}
       />
     );
   }
 }
 
-
 export default connect(
   ({ write }: State) => ({
     open: write.submitBox.open,
     categories: write.submitBox.categories,
+    tags: write.submitBox.tags,
+    body: write.body,
+    title: write.title,
   }),
   () => ({}),
 )(SubmitBoxContainer);
