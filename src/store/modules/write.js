@@ -90,7 +90,7 @@ const reducer = handleActions({
     }),
   [TOGGLE_CATEGORY]: (state, { payload: id }: ToggleCategoryAction) => {
     if (!state.submitBox.categories) return state;
-    const index = state.categories.findIndex(category => category.id === id);
+    const index = state.submitBox.categories.findIndex(category => category.id === id);
     return produce(state, (draft) => {
       if (!draft.submitBox.categories) return;
       draft.submitBox.categories[index].active = !draft.submitBox.categories[index].active;
