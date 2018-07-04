@@ -5,7 +5,7 @@ import CodeEditorContainer from 'containers/write/CodeEditorContainer';
 import WriteHeaderContainer from 'containers/write/WriteHeaderContainer';
 import MarkdownPreviewContainer from 'containers/write/MarkdownPreviewContainer';
 import SubmitBoxContainer from 'containers/write/SubmitBoxContainer';
-import SelectCategory from 'components/write/SelectCategory';
+import CategoryEditModal from 'components/write/CategoryEditModal';
 
 const Write = () => {
   return (
@@ -17,6 +17,7 @@ const Write = () => {
         left={<CodeEditorContainer />}
         right={<MarkdownPreviewContainer />}
       />
+      <CategoryEditModal />
     </WriteTemplate>
   );
 };

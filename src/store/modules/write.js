@@ -57,10 +57,24 @@ export type SubmitBox = {
   categories: ?Categories,
 }
 
+export type PostData = {
+  id: string,
+  title: string,
+  body: string,
+  thumbnail: string,
+  is_markdown: boolean,
+  created_at: string,
+  updated_at: string,
+  tags: Array<string>,
+  categories: Array<{ id: string, name: string }>,
+  url_slug: string,
+}
+
 export type Write = {
   body: string,
   title: string,
   submitBox: SubmitBox,
+  postData: ?PostData,
 }
 
 const initialState: Write = {
@@ -71,6 +85,7 @@ const initialState: Write = {
     categories: null,
     tags: [],
   },
+  postData: null,
 };
 
 const reducer = handleActions({
@@ -123,6 +138,14 @@ export default applyPenders(reducer, [
 
       return produce(state, (draft) => {
         draft.submitBox.categories = categories;
+      });
+    },
+  },
+  {
+    type: WRITE_POST,
+    onSuccess: (state: PostData, { payload: response }) => {
+      return produce(state, (draft) => {
+        draft.postData = response.data;
       });
     },
   },

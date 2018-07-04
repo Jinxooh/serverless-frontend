@@ -41,7 +41,7 @@ class InputTags extends Component<Props, State> {
     });
   }
 
-  onKeyPress = (e: any) => {
+  onKeyUp = (e: any) => {
     if (['Enter', ','].indexOf(e.key) !== -1) {
       this.onButtonClick();
       e.preventDefault();
@@ -51,7 +51,7 @@ class InputTags extends Component<Props, State> {
   onButtonClick = () => {
     const { input } = this.state;
     const { onInsert } = this.props;
-    onInsert(input);
+    onInsert(input.replace(',', ''));
     this.setState({
       input: '',
     });
@@ -63,16 +63,16 @@ class InputTags extends Component<Props, State> {
   }
 
   componentDidMount() {
-    const a = new PerfectScrollbar(this.tags);
+    const ps = new PerfectScrollbar(this.tags);
   }
 
   render() {
-    const { onChange, onButtonClick, onKeyPress } = this;
+    const { onChange, onButtonClick, onKeyUp } = this;
     const { input } = this.state;
     return (
       <div className="InputTags">
         <div className="input-button">
-          <input placeholder="Input Tag" value={input} onChange={onChange} onKeyPress={onKeyPress} />
+          <input placeholder="Input Tag" value={input} onChange={onChange} onKeyUp={onKeyUp} />
           <div className="button util flex-center" onClick={onButtonClick}>Register</div>
         </div>
         <div id="tags" className="tags" ref={(ref) => { this.tags = ref; }}>

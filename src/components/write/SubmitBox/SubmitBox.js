@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import onClickOutside from 'react-onclickoutside';
+import SettingsIcon from 'react-icons/lib/md/settings';
 import cx from 'classnames';
 
 import './SubmitBox.scss';
@@ -64,8 +65,12 @@ class SubmitBox extends Component<Props, State> {
         </div>
         <div className="sections">
           <section>
-            <div className="section-title">
+            <div className="section-title category">
               Select Category
+              <div className="edit util flex-center">
+                <SettingsIcon />
+                <div>modify</div>
+              </div>
             </div>
             {selectCategory}
           </section>
