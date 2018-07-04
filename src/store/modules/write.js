@@ -26,7 +26,7 @@ export interface WriteActionCreators {
   toggleCategory(id: string): any,
   insertTag(tag: string): any,
   removeTag(tag: string): any,
-  writePost(payload: PostsAPI.WritePostPayload): Promise<*>,
+  writePost(payload: PostsAPI.WritePostPayload): any,
 }
 
 export const actionCreators: WriteActionCreators = {

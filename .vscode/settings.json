@@ -3,5 +3,6 @@
   "javascript.validate.enable": false,
   "typescript.tsserver.log": "verbose",
   // "editor.formatOnSave": true,
-  "prettier.eslintIntegration": true
+  "prettier.eslintIntegration": true,
+  "generate-react-component.componentTemplatePath": "/Users/hwangjinsoo-pc/Documents/myProject/serverless-frontend/.templates/",
 }
