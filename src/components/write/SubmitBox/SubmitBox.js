@@ -13,14 +13,15 @@ type Props = {
   visible: boolean,
   onClose(): void,
   onSubmit(): void,
-}
+  onEditCategoryClick(): void,
+};
 
 type State = {
   animating: boolean,
-}
+};
 
 class SubmitBox extends Component<Props, State> {
-  animatingTimeout: any;
+  animateTimeout: any;
 
   static defaultProps = {
     isEditing: false,
@@ -31,7 +32,8 @@ class SubmitBox extends Component<Props, State> {
   }
 
   handleClickOutside = () => {
-    const { onClose } = this.props;
+    const { onClose, visible } = this.props;
+    if (!visible) return;
     onClose();
   }
 
@@ -41,19 +43,27 @@ class SubmitBox extends Component<Props, State> {
     }
   }
 
+  componentWillUnmount() {
+    clearTimeout(this.animateTimeout);
+  }
+
   animate = () => {
-    clearTimeout(this.animatingTimeout);
+    clearTimeout(this.animateTimeout);
     this.setState({
       animating: true,
     });
-    this.animatingTimeout = setTimeout(() => {
+    this.animateTimeout = setTimeout(() => {
       this.setState({
         animating: false,
       });
     }, 150);
   }
+
   render() {
-    const { isEditing, selectCategory, inputTags, visible, onSubmit } = this.props;
+    const {
+      isEditing, selectCategory, inputTags,
+      visible, onSubmit, onEditCategoryClick,
+    } = this.props;
     const { animating } = this.state;
 
     if (!visible && !animating) return null;
@@ -61,29 +71,29 @@ class SubmitBox extends Component<Props, State> {
     return (
       <div className={cx('SubmitBox', visible ? 'appear' : 'disappear')}>
         <div className="title">
-          {isEditing ? 'Modifiy' : 'Write New Post'}
+          {isEditing ? 'Modify' : 'Write New Post'}
         </div>
         <div className="sections">
           <section>
-            <div className="section-title category">
+            <div className="section-title category" onClick={onEditCategoryClick}>
               Select Category
               <div className="edit util flex-center">
                 <SettingsIcon />
-                <div>modify</div>
+                <div>Modify</div>
               </div>
             </div>
             {selectCategory}
           </section>
           <section>
             <div className="section-title">
-              Set Tag
+              Setting Tag
             </div>
             {inputTags}
           </section>
         </div>
         <div className="footer">
           <div className="open-options">
-            <span>Addtional setting</span>
+            <span>Additional Setting</span>
           </div>
           <div className="submit-button util flex-center" onClick={onSubmit}>Create</div>
         </div>

@@ -8,11 +8,12 @@ import { connect } from 'react-redux';
 import type { State } from 'store';
 import { WriteActions, UserActions } from 'store/actionCreators';
 import type { Categories } from 'store/modules/write';
+import type { List } from 'immutable';
 
 type Props = {
   open: boolean,
   categories: ?Categories,
-  tags: Array<string>,
+  tags: List<string>,
   title: string,
   body: string,
 }
@@ -44,14 +45,18 @@ class SubmitBoxContainer extends Component<Props> {
   onToggleCategory = (id) => {
     WriteActions.toggleCategory(id);
   }
+  onEditCategoryClick = () => {
+    WriteActions.openCategoryModal();
+    WriteActions.closeSubmitBox();
+  }
   onSubmit = async () => {
     const { categories, tags, body, title } = this.props;
 
     // console.log({
     //   title,
     //   body,
-    //   categories: categories ? categories.filter(c => c.active).map(c => c.id) : [],
-    //   tags,
+    //   categories: categories ? categories.filter(c => c.active).map(c => c.id).toJS() : [],
+    //   tags: tags.toJS(),
     // });
     try {
       await WriteActions.writePost({
@@ -59,24 +64,30 @@ class SubmitBoxContainer extends Component<Props> {
         body,
         isMarkdown: true,
         isTemp: false,
-        tags,
-        categories: categories ? categories.filter(c => c.active).map(c => c.id) : [],
+        tags: tags.toJS(),
+        categories: categories ? categories.filter(c => c.active).map(c => c.id).toJS() : [],
       });
     } catch (e) {
       console.log(e);
     }
   }
   render() {
-    const { onClose, onToggleCategory, onInsertTag, onRemoveTag, onSubmit } = this;
+    const {
+      onClose, onToggleCategory, onInsertTag,
+      onRemoveTag, onSubmit, onEditCategoryClick,
+    } = this;
     const { open, categories, tags } = this.props;
     return (
       <SubmitBox
+        onEditCategoryClick={onEditCategoryClick}
         selectCategory={<SelectCategory categories={categories} onToggle={onToggleCategory} />}
-        inputTags={<InputTags
-          tags={tags}
-          onInsert={onInsertTag}
-          onRemove={onRemoveTag}
-        />}
+        inputTags={(
+          <InputTags
+            tags={tags}
+            onInsert={onInsertTag}
+            onRemove={onRemoveTag}
+          />
+        )}
         visible={open}
         onClose={onClose}
         onSubmit={onSubmit}

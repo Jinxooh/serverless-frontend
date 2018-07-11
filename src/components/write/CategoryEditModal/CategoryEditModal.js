@@ -1,30 +1,62 @@
+// @flow
 import React, { Component, type Node } from 'react';
 import PerfectScrollbar from 'perfect-scrollbar';
 import ModalWrapper from 'components/common/ModalWrapper';
 import './CategoryEditModal.scss';
 
 type Props = {
+  open: boolean,
   children: Node,
+  onClose(): void,
+  onSave(): Promise<*>,
 };
 
 class CategoryEditModal extends Component<Props> {
   content: any = null;
+  ps: any = null;
 
-  componentDidMount = () => {
-    const ps = new PerfectScrollbar(this.content);
+  setupScrollbar(): void {
+    if (!this.content) return;
+
+    if (this.ps) {
+      // kill existing ps
+      this.ps.destroy();
+      this.ps = null;
+    }
+
+    this.ps = new PerfectScrollbar(this.content);
+    window.ps = this.ps;
+  }
+
+  initialize(): void {
+    this.setupScrollbar();
+  }
+  componentDidMount() {
+    this.initialize();
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    if (!prevProps.open && this.props.open) {
+      this.initialize();
+    }
+    this.setupScrollbar();
   }
 
   render() {
-    const { children } = this.props;
+    const { children, open, onClose, onSave } = this.props;
     return (
-      <ModalWrapper className="CategoryEditModal">
-        <h2>Category Modify</h2>
+      <ModalWrapper className="CategoryEditModal" open={open}>
+        <h2>Modify Category</h2>
         <div className="content" ref={(ref) => { this.content = ref; }}>
           {children}
         </div>
         <div className="foot">
-          <div className="button cancel">Cancel</div>
-          <div className="button save">Save</div>
+          <div className="button cancel" onClick={onClose}>
+            Cancel
+          </div>
+          <div className="button save" onClick={onSave}>
+            Save
+          </div>
         </div>
       </ModalWrapper>
     );
